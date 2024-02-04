@@ -5,9 +5,8 @@ spring:
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: group_id
+      group-id: mygroup
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
-topicName: pedro
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties.spring.json.trusted.packages: '*'
