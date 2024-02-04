@@ -21,7 +21,10 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<String> sendEvent(@RequestBody Employee employee) {
-        var event = Event.builder().id(UUID.randomUUID()).data(employee).build();
+        var event = Event.builder()
+                .id(UUID.randomUUID())
+                .data(employee)
+                .build();
         eventService.sendEvent(event);
         return ResponseEntity.ok().body("Sent event: " + event);
     }
