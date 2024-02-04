@@ -1,6 +1,5 @@
 package com.pedroalmeida.kafkaconsumer.controller;
 
-import com.pedroalmeida.common.Employee;
 import com.pedroalmeida.kafkaconsumer.model.EmployeeEntity;
 import com.pedroalmeida.kafkaconsumer.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
