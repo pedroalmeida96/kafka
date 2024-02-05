@@ -19,10 +19,8 @@ public class EventHandler {
     @KafkaListener(topics = "pedroalmeida.eventTopic", groupId = "mygroup")
     public void consumeEvent(Event event) {
         log.info("Event received: {}", event);
-        if (event.getData() instanceof Employee employee) {
-            var employeeEntity = EmployeeEntity.builder().name(employee.getName()).build();
-            employeeService.saveEmployee(employeeEntity);
-        }
+        var employeeEntity = EmployeeEntity.builder().name(event.getData().getName()).build();
+        employeeService.saveEmployee(employeeEntity);
     }
 
 }

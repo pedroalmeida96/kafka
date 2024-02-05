@@ -1,0 +1,36 @@
+{
+   "namespace":"com.pedroalmeida.common",
+   "type":"record",
+   "name":"Event",
+   "fields":[
+      {
+         "name":"id",
+         "type":"string",
+         "logicalType":"uuid"
+      },
+      {
+         "name":"data",
+         "type":[
+            "null",
+            {
+               "type":"record",
+               "name":"Employee",
+               "fields":[
+                  {
+                     "name":"id",
+                     "type":"int"
+                  },
+                  {
+                     "name":"name",
+                     "type":{
+                        "avro.java.string":"String",
+                        "type":"string"
+                     }
+                  }
+               ]
+            }
+         ],
+         "default":null
+      }
+   ]
+}

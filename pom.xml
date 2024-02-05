@@ -54,9 +54,15 @@
             <version>${spring.boot.version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
+            <version>7.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-schema-registry-client</artifactId>
             <version>7.5.1</version>
         </dependency>
     </dependencies>
