@@ -20,3 +20,4 @@ spring:
       properties.spring.json.trusted.packages: '*'
     properties:
       schema.registry.url: "http://localhost:8085"
+      specific.avro.reader: true
