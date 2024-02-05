@@ -2,16 +2,12 @@ version: '3'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
-    networks:
-      - broker-kafka
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
   kafka:
     image: confluentinc/cp-kafka:latest
-    networks:
-      - broker-kafka
     depends_on:
       - zookeeper
     ports:
@@ -27,8 +23,6 @@ services:
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
-    networks:
-      - broker-kafka
     depends_on:
       - kafka
     ports:
@@ -51,13 +45,11 @@ services:
     restart: always
     depends_on:
       - zookeeper
+      - kafka
     environment:
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:29092
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
       SCHEMA_REGISTRY_HOST_NAME: schemaregistry
       SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
     ports:
       - "8085:8085"
-
-networks:
-  broker-kafka:
-    driver: bridge
