@@ -1,6 +1,5 @@
 package com.pedroalmeida.kafkaconsumer.listener;
 
-import com.pedroalmeida.common.Employee;
 import com.pedroalmeida.common.Event;
 import com.pedroalmeida.kafkaconsumer.model.EmployeeEntity;
 import com.pedroalmeida.kafkaconsumer.service.EmployeeService;
