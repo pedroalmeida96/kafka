@@ -42,7 +42,7 @@ services:
 
   schemaregistry:
     image: confluentinc/cp-schema-registry:latest
-    restart: always
+    restart: unless-stopped
     depends_on:
       - zookeeper
       - kafka
@@ -53,3 +53,27 @@ services:
       SCHEMA_REGISTRY_LISTENERS: "http://0.0.0.0:8085"
     ports:
       - "8085:8085"
+
+  consumer:
+    build:
+      dockerfile: ./kafkaconsumer/Dockerfile
+    container_name: consumer
+    depends_on:
+      - kafka
+      - mariadb
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://localhost:3306/mariadb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+  producer:
+    build:
+      dockerfile: ./kafkaproducer/Dockerfile
+    container_name: producer
+    depends_on:
+      - kafka
+    ports:
+      - "8079:8079"
