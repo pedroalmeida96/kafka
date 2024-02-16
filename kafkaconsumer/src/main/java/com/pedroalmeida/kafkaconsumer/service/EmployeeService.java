@@ -14,7 +14,7 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     public List<EmployeeEntity> getAllEmployees() {
-        return null;
+        return employeeRepository.findAll();
     }
 
     public void saveEmployee(EmployeeEntity employeeEntity) {

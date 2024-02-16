@@ -1,13 +1,14 @@
 package com.pedroalmeida.kafkaconsumer.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "employees")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeEntity {
 
     @Id
