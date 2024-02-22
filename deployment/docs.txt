@@ -1,0 +1,28 @@
+https://minikube.sigs.k8s.io/docs/start/
+C:\minikube
+
+all via command line
+
+
+minikube version
+minikube
+docker context use default
+minikube status
+
+minikube start
+minikube delete
+
+kubectl get pods
+kubectl get all
+kubectl get node
+
+
+
+kubectl apply -f mariadb-config.yaml
+kubectl apply -f mariadb-secret.yaml
+kubectl apply -f .\mariadb.yaml
+kubectl apply -f .\consumer.yaml
+
+eval $(minikube -p minikube docker-env)
+
+https://minikube.sigs.k8s.io/docs/handbook/registry/ -->> solve cannot access local images
