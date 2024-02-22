@@ -23,6 +23,6 @@ kubectl apply -f mariadb-secret.yaml
 kubectl apply -f .\mariadb.yaml
 kubectl apply -f .\consumer.yaml
 
-eval $(minikube -p minikube docker-env)
+eval $(minikube -p minikube docker-env) -- not able to run
 
 https://minikube.sigs.k8s.io/docs/handbook/registry/ -->> solve cannot access local images
