@@ -1,0 +1,23 @@
+server.port: 8081
+
+spring:
+  application.name: kafkaconsumer
+  datasource:
+    url: jdbc:mariadb://localhost:3306/mariadb
+    username: root
+    password: root
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: mygroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties.spring.json.trusted.packages: '*'
+    properties:
+      schema.registry.url: "http://localhost:8085"
+      specific.avro.reader: true

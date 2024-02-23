@@ -26,3 +26,11 @@ kubectl apply -f .\consumer.yaml
 eval $(minikube -p minikube docker-env) -- not able to run
 
 https://minikube.sigs.k8s.io/docs/handbook/registry/ -->> solve cannot access local images
+
+
+minikube docker-env >> powershell
+& minikube -p minikube docker-env --shell powershell | Invoke-Expression
+
+COPY target/*.jar app.jar -->> change this to docker build
+
+docker build -t kafka-consumer:latest .

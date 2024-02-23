@@ -20,17 +20,7 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8081
-          env:
-            - name: USER_PWD
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-secret
-                  key: mariadb-password
-            - name: DB_URL
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-config
-                  key: mariadb-url
+
 ---
 apiVersion: v1
 kind: Service
