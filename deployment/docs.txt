@@ -37,3 +37,4 @@ docker build -t kafka-consumer:latest .
 
 
 https://medium.com/globant/deploying-kafka-on-minikube-without-ip-hack-springboot-producer-consumer-6698489012dd
+https://stackoverflow.com/questions/53496116/schema-registry-on-kubernetes-publicly-accesible
