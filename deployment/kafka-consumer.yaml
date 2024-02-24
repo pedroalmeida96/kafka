@@ -33,9 +33,10 @@ metadata:
   name: kafka-consumer
 spec:
   ports:
-    - port: 8080
+    - port: 8081
       protocol: TCP
-      targetPort: 8080
+      targetPort: 8081
+      nodePort: 30096
   selector:
     app: kafka-consumer
   type: NodePort
