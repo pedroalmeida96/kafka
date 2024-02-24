@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mariadb-deployment
-  labels:
-    app: mariadb
+  name: mariadb
 spec:
   replicas: 1
   selector:
@@ -16,23 +14,23 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: mariadb:lts
+          image: mariadb
           ports:
             - containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mariadb-secret
-                  key: mariadb-password
+              value: root
+            - name: MYSQL_DATABASE
+              value: mariadb
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mariadb-service
+  name: mariadb
 spec:
   selector:
-    app.kubernetes.io/name: mariadb
+    app: mariadb
   ports:
     - protocol: TCP
       port: 3306
