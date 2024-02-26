@@ -36,17 +36,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: kafka-producer
   name: kafka-producer
 spec:
-  ports:
-    - port: 8079
-      protocol: TCP
-      targetPort: 8079
-      nodePort: 30079
+  type: NodePort
   selector:
     app: kafka-producer
-  type: NodePort
-status:
-  loadBalancer: { }
+  ports:
+    - protocol: TCP
+      port: 8079
+      targetPort: 8079
+      nodePort: 30200

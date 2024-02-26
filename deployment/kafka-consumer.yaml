@@ -48,17 +48,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: kafka-consumer
   name: kafka-consumer
 spec:
-  ports:
-    - port: 8081
-      protocol: TCP
-      targetPort: 8081
-      nodePort: 30096
+  type: NodePort
   selector:
     app: kafka-consumer
-  type: NodePort
-status:
-  loadBalancer: { }
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      nodePort: 30100
