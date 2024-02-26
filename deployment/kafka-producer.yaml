@@ -1,15 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: kafka-producer
   labels:
     app: kafka-producer
-  name: kafka-producer
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: kafka-producer
-  strategy: { }
   template:
     metadata:
       labels:
@@ -31,7 +30,7 @@ spec:
             - name: SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER
               value: io.confluent.kafka.serializers.KafkaAvroSerializer
             - name: SPRING_KAFKA_PRODUCER_PROPERTIES_SCHEMA_REGISTRY_URL
-              value: "http://schemaregistry:8085"
+              value: schemaregistry:8085
 ---
 apiVersion: v1
 kind: Service
@@ -45,4 +44,4 @@ spec:
     - protocol: TCP
       port: 8079
       targetPort: 8079
-      nodePort: 30200
+      nodePort: 30179

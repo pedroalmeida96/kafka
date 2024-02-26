@@ -1,15 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: kafka-consumer
   labels:
     app: kafka-consumer
-  name: kafka-consumer
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: kafka-consumer
-  strategy: { }
   template:
     metadata:
       labels:
@@ -57,4 +56,4 @@ spec:
     - protocol: TCP
       port: 8081
       targetPort: 8081
-      nodePort: 30100
+      nodePort: 30181
