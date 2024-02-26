@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: schemaregistry
+  name: schemaregistry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: schemaregistry
+  template:
+    metadata:
+      labels:
+        app: schemaregistry
+    spec:
+      containers:
+        - image: confluentinc/cp-schema-registry:latest
+          imagePullPolicy: IfNotPresent
+          name: schemaregistry
+          ports:
+            - containerPort: 8085
+          env:
+            - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+              value: kafka:29092
+            - name: SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL
+              value: zookeeper
+            - name: SCHEMA_REGISTRY_HOST_NAME
+              value: schemaregistry
+            - name: SCHEMA_REGISTRY_LISTENERS
+              value: "http://schemaregistry:8085"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: schemaregistry
+  name: schemaregistry
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8085
+      targetPort: 8085
+  selector:
+    app: schemaregistry
