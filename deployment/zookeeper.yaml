@@ -31,10 +31,9 @@ metadata:
     app: zookeeper
   name: zookeeper
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 2181
-      nodePort: 30182
       targetPort: 2181
   selector:
     app: zookeeper

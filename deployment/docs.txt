@@ -11,8 +11,10 @@ minikube status
 
 minikube delete
 minikube start
+minikube ip
 
 
+kubectl get service
 kubectl get pods
 kubectl get all
 kubectl get node
@@ -37,6 +39,7 @@ minikube docker-env >> powershell
 COPY target/*.jar app.jar -->> change this to docker build
 
 docker build -t kafka-consumer:latest .
+docker build -t kafka-producer:latest .
 
 
 https://medium.com/globant/deploying-kafka-on-minikube-without-ip-hack-springboot-producer-consumer-6698489012dd
@@ -53,3 +56,4 @@ cd kafkaconsumer
 docker build -t kafka-consumer:latest .
 cd ..
 kubectl apply -f .\deployment\
+

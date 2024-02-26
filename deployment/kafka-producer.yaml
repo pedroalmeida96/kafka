@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kafka-producer
+  name: kafka-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-producer
+  strategy: { }
+  template:
+    metadata:
+      labels:
+        app: kafka-producer
+    spec:
+      containers:
+        - image: kafka-producer:latest
+          name: kafka-producer
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8079
+          env:
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: kafka:29092
+            - name: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS
+              value: kafka:29092
+            - name: SPRING_KAFKA_PRODUCER_KEY_SERIALIZER
+              value: org.apache.kafka.common.serialization.StringSerializer
+            - name: SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER
+              value: io.confluent.kafka.serializers.KafkaAvroSerializer
+            - name: SPRING_KAFKA_PRODUCER_PROPERTIES_SCHEMA_REGISTRY_URL
+              value: "http://schemaregistry:8085"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kafka-producer
+  name: kafka-producer
+spec:
+  ports:
+    - port: 8079
+      protocol: TCP
+      targetPort: 8079
+      nodePort: 30079
+  selector:
+    app: kafka-producer
+  type: NodePort
+status:
+  loadBalancer: { }
