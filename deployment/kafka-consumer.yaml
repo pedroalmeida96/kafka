@@ -43,6 +43,9 @@ spec:
               value: "http://schemaregistry:8085"
             - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SPECIFIC_AVRO_READER
               value: "true"
+            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SPRING_JSON_TRUSTED_PACKAGES
+              value: "*"
+
 ---
 apiVersion: v1
 kind: Service

@@ -28,6 +28,8 @@ spec:
               value: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
             - name: KAFKA_INTER_BROKER_LISTENER_NAME
               value: PLAINTEXT
+            - name: KAFKA_SCHEMA_REGISTRY_URL
+              value: schemaregistry:8085
           image: confluentinc/cp-kafka:latest
           imagePullPolicy: IfNotPresent
           name: kafka

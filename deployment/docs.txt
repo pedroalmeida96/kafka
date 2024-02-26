@@ -19,7 +19,8 @@ kubectl get pods
 kubectl get all
 kubectl get node
 
-
+minikube service kafka-consumer --url
+minikube service kafka-producer --url -->> expose endpoints
 
 kubectl apply -f mariadb-config.yaml
 kubectl apply -f mariadb-secret.yaml
