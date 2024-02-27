@@ -29,7 +29,9 @@ spec:
             - name: KAFKA_INTER_BROKER_LISTENER_NAME
               value: PLAINTEXT
             - name: KAFKA_SCHEMA_REGISTRY_URL
-              value: schemaregistry:8085
+              value: http://schemaregistry:8085
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
           image: confluentinc/cp-kafka:latest
           imagePullPolicy: IfNotPresent
           name: kafka
