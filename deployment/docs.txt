@@ -1,0 +1,60 @@
+https://minikube.sigs.k8s.io/docs/start/
+C:\minikube
+
+all via command line
+
+
+minikube version
+minikube
+docker context use default
+minikube status
+
+minikube delete
+minikube start
+minikube ip
+
+
+kubectl get service
+kubectl get pods
+kubectl get all
+kubectl get node
+
+minikube service kafka-consumer --url
+minikube service kafka-producer --url -->> expose endpoints
+
+kubectl apply -f mariadb-config.yaml
+kubectl apply -f mariadb-secret.yaml
+kubectl apply -f .\mariadb.yaml
+kubectl apply -f .\consumer.yaml
+
+kubectl rollout restart deployment <pod>
+kubectl rollout restart deployment -->> restarts all
+
+>> kubectl apply -f .\deployment\  --> Multiple deploy at once
+
+https://minikube.sigs.k8s.io/docs/handbook/registry/ -->> solve cannot access local images
+
+minikube docker-env >> powershell
+& minikube -p minikube docker-env --shell powershell | Invoke-Expression
+
+COPY target/*.jar app.jar -->> change this to docker build
+
+docker build -t kafka-consumer:latest .
+docker build -t kafka-producer:latest .
+
+
+https://medium.com/globant/deploying-kafka-on-minikube-without-ip-hack-springboot-producer-consumer-6698489012dd
+https://stackoverflow.com/questions/53496116/schema-registry-on-kubernetes-publicly-accesible
+
+
+
+minikube delete
+minikube start
+kubectl get pods
+minikube docker-env
+& minikube -p minikube docker-env --shell powershell | Invoke-Expression
+cd kafkaconsumer
+docker build -t kafka-consumer:latest .
+cd ..
+kubectl apply -f .\deployment\
+
