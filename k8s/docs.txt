@@ -56,5 +56,9 @@ minikube docker-env
 cd kafkaconsumer
 docker build -t kafka-consumer:latest .
 cd ..
+cd producer
+docker build -t kafka-producer:latest .
+cd ..
 kubectl apply -f .\deployment\
-
+minikube service kafka-consumer --url
+minikube service kafka-producer --url
