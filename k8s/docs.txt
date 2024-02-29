@@ -60,5 +60,9 @@ cd producer
 docker build -t kafka-producer:latest .
 cd ..
 kubectl apply -f .\deployment\
+kubectl get pods
+kubectl rollout restart deployment
 minikube service kafka-consumer --url
 minikube service kafka-producer --url
+kubectl delete --all pods --namespace=default
+kubectl delete --all deployments --namespace=default
