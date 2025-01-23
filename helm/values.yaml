@@ -1,0 +1,5 @@
+namespace: default
+
+zookeeper: zookeeper
+
+mariadb: mariadb
