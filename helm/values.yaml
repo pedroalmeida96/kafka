@@ -1,5 +1,11 @@
+# Common
 namespace: default
 
-zookeeper: zookeeper
+# Zookeeper
+zookeeper:
+  name: zookeeper
+  port: 2081
 
-mariadb: mariadb
+# MariaDB
+mariadb:
+  name: mariadb

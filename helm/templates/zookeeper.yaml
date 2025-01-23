@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.zookeeper }}
+  name: {{ .Values.zookeeper.name }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.zookeeper }}
+    app: {{ .Values.zookeeper.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.zookeeper }}
+      app: {{ .Values.zookeeper.name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.zookeeper }}
+        app: {{ .Values.zookeeper.name }}
     spec:
       containers:
         - image: confluentinc/cp-zookeeper:latest
           imagePullPolicy: IfNotPresent
-          name: {{ .Values.zookeeper }}
+          name: {{ .Values.zookeeper.name }}
           ports:
             - containerPort: 2181
           env:
@@ -28,14 +28,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.zookeeper }}
+  name: {{ .Values.zookeeper.name }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.zookeeper }}
+    app: {{ .Values.zookeeper.name }}
 spec:
   type: ClusterIP
   ports:
     - port: 2181
       targetPort: 2181
   selector:
-    app: {{ .Values.zookeeper }}
+    app: {{ .Values.zookeeper.name }}
