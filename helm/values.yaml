@@ -1,0 +1,10 @@
+# Common
+namespace: default
+
+# Zookeeper
+zookeeper:
+  name: zookeeper
+
+# MariaDB
+mariadb:
+  name: mariadb
