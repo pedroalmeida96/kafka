@@ -1,19 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mariadb
+  name: {{ .Values.mariadb.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.mariadb.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mariadb
+      app: {{ .Values.mariadb.name }}
   template:
     metadata:
       labels:
-        app: mariadb
+        app: {{ .Values.mariadb.name }}
     spec:
       containers:
-        - name: mariadb
+        - name: {{ .Values.mariadb.name }}
           image: mariadb
           ports:
             - containerPort: 3306
@@ -33,11 +36,29 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mariadb
+  name: {{ .Values.mariadb.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.mariadb.name }}
 spec:
   selector:
-    app: mariadb
+    app: {{ .Values.mariadb.name }}
   ports:
     - protocol: TCP
       port: 3306
       targetPort: 3306
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mariadb-secret
+type: Opaque
+data:
+  mariadb-root: cm9vdA==
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-config
+data:
+  mariadb-url: {{ .Values.mariadb.name }}
