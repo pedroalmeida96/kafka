@@ -1,59 +1,91 @@
-# Microservices Spring Boot Application with Kafka, Schema Registry, Zookeeper, MariaDB, Minikube and Helm
+# 🚀 Microservices Spring Boot Application with Kafka, Schema Registry, Zookeeper, MariaDB, Prometheus, Grafana, Minikube & Helm
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Overview](#overview)
-- [Components](#components)
-    - [Spring Boot Microservices](#spring-boot-microservices)
-    - [Kafka Ecosystem](#kafka-ecosystem)
-    - [MariaDB](#mariadb)
-- [Kubernetes](#kubernetes)
-    - [Minikube setup instructions](#minikube-setup-instructions)
-    - [Accessing Services](#accessing-services)
+- [🌐 Overview](#-overview)
+- [⚙️ Components](#️-components)
+    - [🧩 Spring Boot Microservices](#-spring-boot-microservices)
+    - [📡 Kafka Ecosystem](#-kafka-ecosystem)
+    - [🗄️ MariaDB](#️-mariadb)
+    - [📊 Monitoring (Prometheus & Grafana)](#-monitoring-prometheus--grafana)
+- [🧰 Prerequisites](#-prerequisites)
+- [☸️ Kubernetes](#kubernetes)
+    - [🏗️ Minikube Setup Instructions](#minikube-setup-instructions)
+    - [🌍 Accessing Services](#accessing-services)
 
-## Overview:
+---
 
-This project demonstrates a basic microservices architecture using **Spring Boot**, integrated with **Kafka**, **Schema
-Registry**,
-**Zookeeper**, and **MariaDB**. The architecture includes a **Producer Service** and a **Consumer Service**
-communicating through Kafka.
-The deployment is managed using **Helm** and **Minikube** for container orchestration and cluster management.
+## 🌐 Overview
 
-## Components:
+This project showcases a **microservices architecture** built with **Spring Boot**, leveraging **Kafka**, **Schema Registry**, **Zookeeper**, and **MariaDB**.  
+It features:
+- A **Producer Service** that sends events to Kafka topics
+- A **Consumer Service** that processes messages from Kafka
+- **Prometheus & Grafana** for monitoring
+- Deployment via **Helm** on **Minikube** for local Kubernetes orchestration.
 
-### Spring Boot Microservices:
+---
 
-**Producer Service:** Publishes messages to Kafka topics.
+## ⚙️ Components
 
-**Consumer Service:** Consumes and processes messages from Kafka topics.
+### 🧩 Spring Boot Microservices
 
-### Kafka Ecosystem:
+- **Producer Service:** Publishes messages to Kafka topics
+- **Consumer Service:** Consumes and processes messages from Kafka topics  
+  Both expose **Actuator** endpoints for health checks and metrics (`/actuator/prometheus`).
 
-**Kafka:** Acts as the messaging system, enabling communication between services.
+---
 
-**Schema Registry:** Ensures message format compatibility and consistency by managing message schemas.
+### 📡 Kafka Ecosystem
 
-**Zookeeper:** Coordinates and manages Kafka brokers in the distributed system.
+- **Kafka:** Central messaging backbone for service communication
+- **Schema Registry:** Maintains Avro schemas and enforces compatibility
+- **Zookeeper:** Coordinates Kafka brokers and ensures cluster stability
 
-### MariaDB:
+---
 
-**MariaDB** is utilized as the relational database management system for storing application data.
+### 🗄️ MariaDB
 
-### Helm & Minikube
+Used as the **relational database** for persisting business data.
 
-**Helm:** Manages the deployment of services as charts, simplifying Kubernetes configurations.
+---
 
-**Minikube:** Provides a lightweight local Kubernetes cluster for testing and development.
+### 📊 Monitoring (Prometheus & Grafana)
 
-## Prerequisites
+- **Prometheus:** Scrapes metrics from Spring Boot Actuator and other services for performance insights
+- **Grafana:** Visualizes metrics through dashboards
 
-Before running the project, ensure the following are installed on your system:
+📁 Folder structure:
 
-- Minikube
-- Helm
-- kubectl
-- Java
-- Gradle
+```text
+monitoring/
+├── prometheus/
+│   └── prometheus.yml
+└── grafana/
+    └── provisioning/
+        ├── dashboards/
+        │   ├── dashboards.yml
+        │   └── my-dashboard.json
+        └── datasources/
+            └── datasource.yml
+```
+
+## 🧰 Prerequisites
+
+Before setting up the project, make sure the following tools are installed and properly configured on your system:
+
+### 🧱 Development
+- **Java 17+** — to build and run Spring Boot microservices
+- **Maven** — for dependency management and project builds
+- **Postman** — to test and validate REST APIs
+
+### 🐳 Containerization
+- **Docker** — to build, run, and manage containers locally
+
+### ☸️ Kubernetes & Deployment
+- **Minikube** — to create a local Kubernetes cluster
+- **kubectl** — to interact with the cluster and manage resources
+- **Helm** — to simplify Kubernetes deployments and manage Helm charts
 
 ## Kubernetes:
 
@@ -111,4 +143,11 @@ $ helm uninstall release-1.0.0
 $ helm ls
 $ helm upgrade release-1.0.0 ./helm /* No helm values being used, just changes done and upgrade */ 
 $ helm upgrade release-1.0.0 ./helm --values helm/values.yaml /* Specify helm values and its directory */
+```
+
+
+```
+sudo chown $USER /var/run/docker.sock
+docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
+docker-compose pull && docker-compose up -d
 ```

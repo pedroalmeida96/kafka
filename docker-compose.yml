@@ -1,4 +1,3 @@
-version: '3'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -7,7 +6,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   kafka:
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:7.6.1
     depends_on:
       - zookeeper
     ports:
@@ -21,7 +20,6 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_SCHEMA_REGISTRY_URL: "schemaregistry:8085"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      # KAFKA_CREATE_TOPICS: "pedroalmeida.eventTopic:1:1"
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
@@ -43,7 +41,7 @@ services:
       - "3306:3306"
 
   schemaregistry:
-    image: confluentinc/cp-schema-registry:latest
+    image: confluentinc/cp-schema-registry:7.6.1
     restart: unless-stopped
     depends_on:
       - zookeeper
@@ -53,44 +51,62 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
       SCHEMA_REGISTRY_HOST_NAME: schemaregistry
       SCHEMA_REGISTRY_LISTENERS: "http://schemaregistry:8085"
-      SCHEMA_REGISTRY_DEBUG: true
+      SCHEMA_REGISTRY_DEBUG: "true"
     ports:
       - "8085:8085"
 
-  consumer:
-    build:
-      dockerfile: ./kafkaconsumer/Dockerfile
-    container_name: consumer
-    depends_on:
-      - kafka
-      - mariadb
-    ports:
-      - "8081:8081"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/mariadb
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_KAFKA_CONSUMER_BOOTSTRAP_SERVERS: kafka:29092
-      SPRING_KAFKA_CONSUMER_GROUP_ID: mygroup
-      SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET: earliest
-      SPRING_KAFKA_CONSUMER_KEY_DESERIALIZER: org.apache.kafka.common.serialization.StringDeserializer
-      SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER: io.confluent.kafka.serializers.KafkaAvroDeserializer
-      SPRING_KAFKA_CONSUMER_PROPERTIES_SCHEMA_REGISTRY_URL: "http://schemaregistry:8085"
-      SPRING_KAFKA_CONSUMER_PROPERTIES_SPECIFIC_AVRO_READER: "true"
-      SPRING_KAFKA_CONSUMER_PROPERTIES_SPRING_JSON_TRUSTED_PACKAGES: "*"
+  prometheus:
+    image: prom/prometheus
+    network_mode: "host"
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
 
-  producer:
-    build:
-      dockerfile: ./kafkaproducer/Dockerfile
-    container_name: producer
+  grafana:
+    image: grafana/grafana
+    network_mode: "host"
     depends_on:
-      - kafka
-    ports:
-      - "8079:8079"
-    environment:
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS: kafka:29092
-      SPRING_KAFKA_PRODUCER_KEY_SERIALIZER: org.apache.kafka.common.serialization.StringSerializer
-      SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER: io.confluent.kafka.serializers.KafkaAvroSerializer
-      SPRING_KAFKA_PRODUCER_PROPERTIES_SCHEMA_REGISTRY_URL: "http://schemaregistry:8085"
+      - prometheus
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    restart: always
+
+#  consumer:
+#    build:
+#      dockerfile: ./kafkaconsumer/Dockerfile
+#    container_name: consumer
+#    depends_on:
+#      - kafka
+#      - mariadb
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/mariadb
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: root
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#      SPRING_KAFKA_CONSUMER_BOOTSTRAP_SERVERS: kafka:29092
+#      SPRING_KAFKA_CONSUMER_GROUP_ID: mygroup
+#      SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET: earliest
+#      SPRING_KAFKA_CONSUMER_KEY_DESERIALIZER: org.apache.kafka.common.serialization.StringDeserializer
+#      SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER: io.confluent.kafka.serializers.KafkaAvroDeserializer
+#      SPRING_KAFKA_CONSUMER_PROPERTIES_SCHEMA_REGISTRY_URL: "http://schemaregistry:8085"
+#      SPRING_KAFKA_CONSUMER_PROPERTIES_SPECIFIC_AVRO_READER: "true"
+#      SPRING_KAFKA_CONSUMER_PROPERTIES_SPRING_JSON_TRUSTED_PACKAGES: "*"
+
+#  producer:
+#    build:
+#      dockerfile: ./kafkaproducer/Dockerfile
+#    container_name: producer
+#    depends_on:
+#      - kafka
+#    ports:
+#      - "8079:8079"
+#    environment:
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+#      SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS: kafka:29092
+#      SPRING_KAFKA_PRODUCER_KEY_SERIALIZER: org.apache.kafka.common.serialization.StringSerializer
+#      SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER: io.confluent.kafka.serializers.KafkaAvroSerializer
+#      SPRING_KAFKA_PRODUCER_PROPERTIES_SCHEMA_REGISTRY_URL: "http://schemaregistry:8085"
