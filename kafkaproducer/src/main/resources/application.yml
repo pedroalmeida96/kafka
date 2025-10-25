@@ -1,5 +1,9 @@
 server.port: 8079
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
 spring:
   application:
     name: kafkaproducer
